@@ -1,43 +1,43 @@
 package com.ice.util  {
-
-		// Imports
-		import flash.geom.Point
+	
+	// Imports
+	import flash.geom.Point
 		
 		/** 
-		* This class provides various useful math methods
-	  */
+		 * This class provides various useful math methods
+		 */
 		public class MathUtils {
-		
+			
 			// Angle between two points
 			public static function getAngle(x1:Number, y1:Number, x2:Number, y2:Number, dist:Number=0):Number {
-			   var ret:Number = Math.atan2(y2-y1,x2-x1)
-				 if(ret<0) ret += 2*Math.PI
-				 return ret*180/Math.PI
+				var ret:Number = Math.atan2(y2-y1,x2-x1)
+				if(ret<0) ret += 2*Math.PI
+				return ret*180/Math.PI
 			}
 			
 			/** 
-			* Distance between two points
-			*/
+			 * Distance between two points
+			 */
 			public static function distance(x1:Number,y1:Number,x2:Number,y2:Number):Number {
-			   var dx:Number = x1-x2
-			   var dy:Number = y2-y1
-			   return Math.sqrt(dx*dx + dy*dy)
+				var dx:Number = x1-x2
+				var dy:Number = y2-y1
+				return Math.sqrt(dx*dx + dy*dy)
 			}
 			
 			/**
-			* Distance between two points (3d)
-			*/
+			 * Distance between two points (3d)
+			 */
 			public static function distance3d(x1:Number,y1:Number,z1:Number,x2:Number,y2:Number,z2:Number):Number {
-			   var dx:Number = x1-x2
-			   var dy:Number = y2-y1
-			   var dz:Number = z2-z1
-			   return Math.sqrt(dx*dx + dy*dy + dz*dz)
+				var dx:Number = x1-x2
+				var dy:Number = y2-y1
+				var dz:Number = z2-z1
+				return Math.sqrt(dx*dx + dy*dy + dz*dz)
 			}
 			
 			/**
-			* Distance between a Point and a segment
-			* source: http://www.codeguru.com/forum/showthread.php?t=194400
-			*/
+			 * Distance between a Point and a segment
+			 * source: http://www.codeguru.com/forum/showthread.php?t=194400
+			 */
 			public static function distancePointToSegment(SegA:Point,SegB:Point,point:Point):Number {
 				
 				var ax:Number = SegA.x
@@ -46,7 +46,7 @@ package com.ice.util  {
 				var by:Number = SegB.y
 				var cx:Number = point.x
 				var cy:Number = point.y
-
+				
 				var r_numerator:Number = (cx-ax)*(bx-ax) + (cy-ay)*(by-ay)
 				var r_denomenator:Number = (bx-ax)*(bx-ax) + (by-ay)*(by-ay)
 				var r:Number = r_numerator / r_denomenator
@@ -58,7 +58,7 @@ package com.ice.util  {
 					return s*Math.sqrt(r_denomenator)
 				}
 				else {
-				
+					
 					var dist1:Number = (cx-ax)*(cx-ax) + (cy-ay)*(cy-ay)
 					var dist2:Number = (cx-bx)*(cx-bx) + (cy-by)*(cy-by)
 					if (dist1 < dist2) {
@@ -66,18 +66,15 @@ package com.ice.util  {
 					}	else {
 						return Math.sqrt(dist2)
 					}
-			
 				}
-				
-
 			}
-
+			
 			/**
-			* Finds out if a segment an a circle intersect and if so, return the intersection points<br>
-			* source: http://keith-hair.net/blog/2008/08/05/line-to-circle-intersection-data/#more-23
-			* @return An lineCircleIntersectionResult with the results of the calculation
-			* 
-			**/
+			 * Finds out if a segment an a circle intersect and if so, return the intersection points<br>
+			 * source: http://keith-hair.net/blog/2008/08/05/line-to-circle-intersection-data/#more-23
+			 * @return An lineCircleIntersectionResult with the results of the calculation
+			 * 
+			 **/
 			public static function segmentIntersectCircle(A : Point, B : Point, C : Point, r : Number ):lineCircleIntersectionResult {
 				
 				var result:lineCircleIntersectionResult = new lineCircleIntersectionResult()
@@ -117,65 +114,61 @@ package com.ice.util  {
 						}
 					}
 				}
+				return result
+			}
+			
+			
+			/**
+			 * Find out if two segments intersect and if so, retrieve the point 
+			 * of intersection.<br>
+			 * Source: http://vision.dai.ed.ac.uk/andrewfg/c-g-a-faq.html
+			 * @return the Point of intersection
+			 */
+			public static function segmentsIntersect(xa:Number, ya:Number, xb:Number, yb:Number, xc:Number, yc:Number, xd:Number, yd:Number):Point {
+				
+				//trace("Intersect "+xa+","+ya+" "+xb+","+yb+" -> "+xc+","+yc+" "+xd+","+yd)
+				var result:Point
+				
+				var ua_t:Number = (xd-xc)*(ya-yc)-(yd-yc)*(xa-xc)
+				var ub_t:Number = (xb-xa)*(ya-yc)-(yb-ya)*(xa-xc)
+				var u_b:Number = (yd-yc)*(xb-xa)-(xd-xc)*(yb-ya)
+				
+				if (u_b!=0)  {
+					
+					var ua:Number = ua_t/u_b;
+					var ub:Number = ub_t/u_b;
+					
+					if (ua>=0 && ua<=1 && ub>=0 && ub<=1) {
+						result = new Point(xa+ua*(xb-xa),ya+ua*(yb-ya))
+					} else result = null
+				}
+				else result = null
 				
 				return result
 				
 			}
-
-
-			/**
-			* Find out if two segments intersect and if so, retrieve the point 
-			* of intersection.<br>
-			* Source: http://vision.dai.ed.ac.uk/andrewfg/c-g-a-faq.html
-			* @return the Point of intersection
-			*/
-			public static function segmentsIntersect(xa:Number, ya:Number, xb:Number, yb:Number, xc:Number, yc:Number, xd:Number, yd:Number):Point {
-
-        //trace("Intersect "+xa+","+ya+" "+xb+","+yb+" -> "+xc+","+yc+" "+xd+","+yd)
-        var result:Point
-
-        var ua_t:Number = (xd-xc)*(ya-yc)-(yd-yc)*(xa-xc)
-        var ub_t:Number = (xb-xa)*(ya-yc)-(yb-ya)*(xa-xc)
-        var u_b:Number = (yd-yc)*(xb-xa)-(xd-xc)*(yb-ya)
-
-        if (u_b!=0)  {
-
-            var ua:Number = ua_t/u_b;
-            var ub:Number = ub_t/u_b;
-
-            if (ua>=0 && ua<=1 && ub>=0 && ub<=1) {
-                result = new Point(xa+ua*(xb-xa),ya+ua*(yb-ya))
-            } else result = null
-        }
-        else result = null
-
-        return result
-			
-			}
 			
 			/**
-			* Find out if two lines intersect and if so, retrieve the point 
-			* of intersection.<br>
-			* Source: http://members.shaw.ca/flashprogramming/wisASLibrary/wis/math/geom/intersect2D/Intersect2DLine.as
-			* @return the Point of intersection
-			*/
+			 * Find out if two lines intersect and if so, retrieve the point 
+			 * of intersection.<br>
+			 * Source: http://members.shaw.ca/flashprogramming/wisASLibrary/wis/math/geom/intersect2D/Intersect2DLine.as
+			 * @return the Point of intersection
+			 */
 			public static function linesIntersect(xa:Number,ya:Number, xb:Number, yb:Number, xc:Number, yc:Number, xd:Number, yd:Number):Point {
-	    
-        var result:Point
-
-        var ua_t:Number = (xd-xc)*(ya-yc)-(yd-yc)*(xa-xc)
-        var ub_t:Number = (xb-xa)*(ya-yc)-(yb-ya)*(xa-xc)
-        var u_b:Number = (yd-yc)*(xb-xa)-(xd-xc)*(yb-ya)
-
-        if (u_b!=0)  {
-            var ua:Number = ua_t/u_b;
-            var ub:Number = ub_t/u_b;
-            result = new Point(xa+ua*(xb-xa),ya+ua*(yb-ya))
-        }
-        else result = null
-        return result
+				
+				var result:Point
+				
+				var ua_t:Number = (xd-xc)*(ya-yc)-(yd-yc)*(xa-xc)
+				var ub_t:Number = (xb-xa)*(ya-yc)-(yb-ya)*(xa-xc)
+				var u_b:Number = (yd-yc)*(xb-xa)-(xd-xc)*(yb-ya)
+				
+				if (u_b!=0)  {
+					var ua:Number = ua_t/u_b;
+					var ub:Number = ub_t/u_b;
+					result = new Point(xa+ua*(xb-xa),ya+ua*(yb-ya))
+				}
+				else result = null
+				return result
+			}
 		}
-
-	}
-
 }
