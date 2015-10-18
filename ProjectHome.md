@@ -1,0 +1,1 @@
+This is a mmorpg engine using adobe flex framework. The game application server bases on scala liftweb framework and media transport server bases on Red5.
